@@ -3,14 +3,26 @@
 <head>
 <meta charset="utf-8"/>
 <title>Dashboard Laporan</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+<link rel="stylesheet" href="style.css"/>
 </head>
 
 <body>
 
-<h2>Dashboard Laporan Masyarakat</h2>
+<button class="back-button" onclick="window.location='index.html'">← Kembali</button>
 
-<table border="1" cellpadding="5">
+<div class="dashboard-container">
 
+<h2>📊 Dashboard Laporan Masyarakat</h2>
+
+<div class="dashboard-content">
+
+<div class="dashboard-map">
+<div id="dashboardMap"></div>
+</div>
+
+<div class="table-container">
+<table>
 <tr>
 <th>Nama</th>
 <th>Daerah</th>
@@ -18,10 +30,15 @@
 <th>Keterangan</th>
 <th>Koordinat</th>
 </tr>
-
 <tbody id="tabelLaporan"></tbody>
-
 </table>
+</div>
+
+</div>
+
+</div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
 <script>
 
@@ -29,6 +46,7 @@ var data = JSON.parse(localStorage.getItem("laporan")) || [];
 
 var tabel = document.getElementById("tabelLaporan");
 
+// Populate table
 data.forEach(function(row){
 
 var tr = document.createElement("tr");
@@ -43,6 +61,41 @@ tr.innerHTML =
 tabel.appendChild(tr);
 
 });
+
+// Initialize map
+var dashboardMap = L.map('dashboardMap').setView([-0.947, 100.417], 12);
+
+var osm = L.tileLayer(
+'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+{
+attribution: '© OpenStreetMap contributors',
+maxZoom: 19
+}
+).addTo(dashboardMap);
+
+// Add markers and zoom to bounds
+var featureGroup = L.featureGroup();
+
+data.forEach(function(row){
+
+var marker = L.marker([row.lat, row.lng]).addTo(dashboardMap);
+
+marker.bindPopup(
+"<b style='color:#1e5a3e'>"+row.nama+"</b><br>"+
+"<strong>Daerah:</strong> "+row.daerah+"<br>"+
+"<strong>Kontak:</strong> "+row.kontak+"<br>"+
+"<strong>Keterangan:</strong> "+row.keterangan+"<br>"+
+"<strong>Koordinat:</strong> "+row.lat+", "+row.lng
+);
+
+featureGroup.addLayer(marker);
+
+});
+
+// Auto zoom to all markers if data exists
+if(data.length > 0 && featureGroup.getLayers().length > 0){
+dashboardMap.fitBounds(featureGroup.getBounds().pad(0.1));
+}
 
 </script>
 
