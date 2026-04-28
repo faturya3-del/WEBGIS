@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Dashboard Laporan</title>
+</head>
+
+<body>
+
+<h2>Dashboard Laporan Masyarakat</h2>
+
+<table border="1" cellpadding="5">
+
+<tr>
+<th>Nama</th>
+<th>Daerah</th>
+<th>Kontak</th>
+<th>Keterangan</th>
+<th>Koordinat</th>
+</tr>
+
+<tbody id="tabelLaporan"></tbody>
+
+</table>
+
+<script>
+
+var data = JSON.parse(localStorage.getItem("laporan")) || [];
+
+var tabel = document.getElementById("tabelLaporan");
+
+data.forEach(function(row){
+
+var tr = document.createElement("tr");
+
+tr.innerHTML =
+"<td>"+row.nama+"</td>"+
+"<td>"+row.daerah+"</td>"+
+"<td>"+row.kontak+"</td>"+
+"<td>"+row.keterangan+"</td>"+
+"<td>"+row.lat+","+row.lng+"</td>";
+
+tabel.appendChild(tr);
+
+});
+
+</script>
+
+</body>
+</html>
