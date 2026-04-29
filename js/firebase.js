@@ -4,7 +4,6 @@ import { getFirestore } from "https://www.gstatic.com/firebasejs/12.12.1/firebas
 
 import { getStorage } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-storage.js";
 
-
 const firebaseConfig = {
 
 apiKey: "AIzaSyAF1F7swRNaYUYUDk3X8w9Yp5pSnTm1gWg",
@@ -23,9 +22,7 @@ measurementId: "G-G9EZ4MV3R8"
 
 };
 
-
 const app = initializeApp(firebaseConfig);
 
 export const db = getFirestore(app);
-
 export const storage = getStorage(app);
