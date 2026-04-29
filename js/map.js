@@ -25,6 +25,7 @@ map.on('click', function(e) {
     }
 });
 
+// --- AMBIL DATA MARKER DARI DATABASE ---
 async function loadMarkers() {
     try {
         const querySnapshot = await getDocs(collection(db, "laporan"));
