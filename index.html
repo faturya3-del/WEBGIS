@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GeoPortal Kriminalitas</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-slate-50 font-sans text-slate-800 h-screen flex flex-col overflow-hidden">
+
+    <!-- Top Navbar -->
+    <nav class="bg-slate-900 text-white px-6 py-3 flex justify-between items-center shadow-md z-20 relative">
+        <div class="flex items-center space-x-3">
+            <div class="text-2xl">🛡️</div>
+            <div>
+                <h1 class="font-bold text-lg leading-tight">GeoPortal</h1>
+                <p class="text-xs text-slate-400">Pengaduan Kriminalitas Masyarakat</p>
+            </div>
+        </div>
+        <div class="hidden md:flex space-x-6 text-sm">
+            <a href="index.html" class="text-blue-400 border-b-2 border-blue-400 pb-1">Beranda</a>
+            <a href="dashboard.html" class="hover:text-blue-300">Dashboard</a>
+        </div>
+        <div>
+            <a href="dashboard.html" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-md text-sm font-semibold transition">
+                Ke Dashboard
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 flex flex-col md:flex-row p-4 gap-4 overflow-hidden">
+        
+        <!-- Left Sidebar: Form Buat Laporan -->
+        <aside class="w-full md:w-1/3 lg:w-1/4 bg-white rounded-lg shadow-sm border border-slate-200 p-5 flex flex-col h-full overflow-y-auto">
+            <h2 class="font-bold text-lg mb-1 flex items-center gap-2">📝 Buat Laporan</h2>
+            <p class="text-xs text-slate-500 mb-4">Klik pada peta untuk menentukan lokasi kejadian</p>
+
+            <form id="laporanForm" class="flex flex-col gap-3">
+                <div>
+                    <label class="text-xs font-semibold text-slate-600">Nama Pelapor</label>
+                    <input type="text" id="nama" required class="w-full mt-1 border border-slate-300 rounded-md p-2 text-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Masukkan nama lengkap">
+                </div>
+                
+                <div>
+                    <label class="text-xs font-semibold text-slate-600">Kategori Kriminalitas</label>
+                    <select id="kategori" required class="w-full mt-1 border border-slate-300 rounded-md p-2 text-sm">
+                        <option value="">Pilih kategori</option>
+                        <option value="Pencurian">Pencurian</option>
+                        <option value="Perampokan">Perampokan</option>
+                        <option value="Kekerasan">Kekerasan</option>
+                        <option value="Narkoba">Narkoba</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="text-xs font-semibold text-slate-600">Keterangan Detail</label>
+                    <textarea id="keterangan" rows="3" required class="w-full mt-1 border border-slate-300 rounded-md p-2 text-sm" placeholder="Jelaskan kronologi kejadian..."></textarea>
+                </div>
+
+                <div class="bg-blue-50 p-3 rounded-md border border-blue-100 mt-2">
+                    <label class="text-xs font-semibold text-blue-800 block mb-1">📍 Koordinat Lokasi (Klik Peta)</label>
+                    <div class="flex gap-2">
+                        <input type="text" id="lat" readonly placeholder="Lat" class="w-1/2 p-1 text-sm bg-white border border-blue-200 rounded outline-none">
+                        <input type="text" id="lng" readonly placeholder="Lng" class="w-1/2 p-1 text-sm bg-white border border-blue-200 rounded outline-none">
+                    </div>
+                </div>
+
+                <button type="submit" id="submitBtn" class="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-md shadow-sm transition">
+                    Kirim Laporan
+                </button>
+            </form>
+        </aside>
+
+        <!-- Center: Map Area -->
+        <section class="flex-1 bg-white rounded-lg shadow-sm border border-slate-200 relative">
+            <div id="map"></div>
+        </section>
+
+    </main>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Map Logic Script (Type Module) -->
+    <script type="module" src="js/map.js"></script>
+</body>
+</html>
