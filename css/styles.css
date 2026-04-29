@@ -1,41 +1,70 @@
 body{
 
-font-family:sans-serif;
 margin:0;
-background:#f5f7fb;
+font-family:Arial;
+background:#f1f5f9;
 
 }
 
-.header{
+.navbar{
 
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:15px;
-background:#1e293b;
+
+padding:15px 25px;
+
+background:#0f172a;
 color:white;
+
+}
+
+.menu a{
+
+color:white;
+margin-left:20px;
+text-decoration:none;
 
 }
 
 .container{
 
-display:flex;
+display:grid;
+
+grid-template-columns:320px 1fr 280px;
+
+height:90vh;
+
+}
+
+.sidebar{
+
+background:white;
+
+padding:20px;
+
+box-shadow:0 5px 20px rgba(0,0,0,0.1);
+
+overflow:auto;
 
 }
 
 #map{
 
-height:90vh;
-width:70%;
+height:100%;
+width:100%;
 
 }
 
-.form-panel{
+.rightpanel{
 
-width:30%;
-padding:20px;
 background:white;
-box-shadow:0 0 10px rgba(0,0,0,0.1);
+
+padding:20px;
+
+overflow:auto;
+
+box-shadow:-5px 0 20px rgba(0,0,0,0.05);
 
 }
 
@@ -44,6 +73,7 @@ input,textarea,select{
 width:100%;
 padding:10px;
 margin-bottom:10px;
+
 border-radius:6px;
 border:1px solid #ddd;
 
@@ -51,11 +81,15 @@ border:1px solid #ddd;
 
 button{
 
-background:#3b82f6;
+background:#2563eb;
 color:white;
-padding:10px;
+
 border:none;
+
+padding:12px;
+
 border-radius:6px;
+
 cursor:pointer;
 
 }
@@ -63,7 +97,9 @@ cursor:pointer;
 .dashboard{
 
 display:flex;
+
 gap:20px;
+
 padding:30px;
 
 }
@@ -71,10 +107,39 @@ padding:30px;
 .card{
 
 background:white;
-padding:20px;
+
+padding:25px;
+
 border-radius:10px;
+
 box-shadow:0 5px 15px rgba(0,0,0,0.1);
+
 width:200px;
+
 text-align:center;
+
+}
+
+.tableArea{
+
+padding:30px;
+
+}
+
+table{
+
+width:100%;
+
+border-collapse:collapse;
+
+background:white;
+
+}
+
+td,th{
+
+padding:12px;
+
+border-bottom:1px solid #eee;
 
 }
