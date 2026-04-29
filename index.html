@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Geoportal Pengaduan Kriminalitas</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+</head>
+
+<body>
+
+<header class="header">
+<h1>Geoportal Pengaduan Kriminalitas</h1>
+
+<a href="dashboard.html" class="dashboard-btn">
+Lihat Dashboard
+</a>
+</header>
+
+<div class="container">
+
+<div id="map"></div>
+
+<div class="form-panel">
+
+<h2>Laporkan Kejadian</h2>
+
+<form id="reportForm">
+
+<input type="text" id="nama" placeholder="Nama Pelapor" required>
+
+<input type="text" id="kontak" placeholder="Kontak">
+
+<input type="text" id="daerah" placeholder="Daerah Lokasi">
+
+<select id="kategori">
+<option>Pencurian</option>
+<option>Perampokan</option>
+<option>Kekerasan</option>
+<option>Narkoba</option>
+<option>Lainnya</option>
+</select>
+
+<textarea id="keterangan" placeholder="Keterangan Detail"></textarea>
+
+<input type="file" id="foto">
+
+<input type="text" id="lat" placeholder="Latitude" readonly>
+
+<input type="text" id="lng" placeholder="Longitude" readonly>
+
+<button type="submit">Kirim Laporan</button>
+
+</form>
+
+</div>
+
+</div>
+
+<script type="module" src="js/map.js"></script>
+
+</body>
+</html>
