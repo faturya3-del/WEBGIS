@@ -21,3 +21,25 @@ const db = getFirestore(app);
 
 // Export db agar bisa di-import di file JS lainnya
 export { db };
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
+// Tambahkan import storage
+import { getStorage } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-storage.js";
+
+const firebaseConfig = {
+    // ... config kamu tetap sama
+    apiKey: "AIzaSyAF1F7swRNaYUYUDk3X8w9Yp5pSnTm1gWg",
+    authDomain: "geoportalkriminalitas.firebaseapp.com",
+    projectId: "geoportalkriminalitas",
+    storageBucket: "geoportalkriminalitas.firebasestorage.app",
+    messagingSenderId: "838654341673",
+    appId: "1:838654341673:web:3dd1355555d35a27d5e238",
+    measurementId: "G-G9EZ4MV3R8"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const storage = getStorage(app); // Inisialisasi Storage
+
+export { db, storage };
