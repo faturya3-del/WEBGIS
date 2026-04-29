@@ -1,48 +1,85 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
+
 <head>
 
-<title>Dashboard Kriminalitas</title>
+<meta charset="UTF-8">
+<title>GeoPortal Kriminalitas</title>
 
 <link rel="stylesheet" href="css/style.css">
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
 </head>
 
 <body>
 
-<header class="header">
+<nav class="navbar">
 
-<h1>Dashboard Laporan Kriminalitas</h1>
-
-<a href="index.html">Kembali ke Peta</a>
-
-</header>
-
-<div class="dashboard">
-
-<div class="card">
-<h2>Total Laporan</h2>
-<p id="total"></p>
+<div class="logo">
+GeoPortal Kriminalitas
 </div>
 
-<div class="card">
-<h2>Baru Masuk</h2>
-<p id="baru"></p>
-</div>
+<div class="menu">
 
-<div class="card">
-<h2>Sedang Diproses</h2>
-<p id="progress"></p>
-</div>
-
-<div class="card">
-<h2>Selesai Ditinjau</h2>
-<p id="selesai"></p>
-</div>
+<a href="#">Beranda</a>
+<a href="dashboard.html">Dashboard</a>
 
 </div>
 
-<script type="module" src="js/dashboard.js"></script>
+</nav>
+
+<div class="container">
+
+<div class="sidebar">
+
+<h2>Buat Laporan</h2>
+
+<form id="reportForm">
+
+<input id="nama" placeholder="Nama Pelapor">
+
+<input id="kontak" placeholder="Kontak">
+
+<input id="daerah" placeholder="Daerah Lokasi">
+
+<select id="kategori">
+
+<option>Pencurian</option>
+<option>Perampokan</option>
+<option>Kekerasan</option>
+<option>Narkoba</option>
+
+</select>
+
+<textarea id="keterangan" placeholder="Detail kejadian"></textarea>
+
+<input type="file" id="foto">
+
+<input id="lat" placeholder="Latitude" readonly>
+<input id="lng" placeholder="Longitude" readonly>
+
+<button type="submit">Kirim Laporan</button>
+
+</form>
+
+</div>
+
+<div id="map"></div>
+
+<div class="rightpanel">
+
+<h3>Laporan Terbaru</h3>
+
+<div id="listLaporan"></div>
+
+</div>
+
+</div>
+
+<script type="module" src="js/map.js"></script>
 
 </body>
+
 </html>
