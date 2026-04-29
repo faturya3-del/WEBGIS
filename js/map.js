@@ -92,3 +92,68 @@ form.addEventListener('submit', async (e) => {
         submitBtn.disabled = false;
     }
 });
+
+import { db, storage } from './firebase.js'; // Tambahkan storage
+import { collection, addDoc, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
+// Import helper storage
+import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-storage.js";
+
+// ... (logika map tetap sama)
+
+// Tampilkan nama file saat dipilih
+const fileInput = document.getElementById('foto');
+fileInput.addEventListener('change', (e) => {
+    const fileName = e.target.files[0]?.name || "";
+    document.getElementById('fileName').innerText = fileName;
+});
+
+form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const latVal = document.getElementById('lat').value;
+    const lngVal = document.getElementById('lng').value;
+    const file = fileInput.files[0];
+
+    if (!latVal || !lngVal) {
+        alert("Pilih lokasi di peta!");
+        return;
+    }
+
+    submitBtn.innerText = "Mengupload...";
+    submitBtn.disabled = true;
+
+    try {
+        let imageUrl = null;
+
+        // Proses Upload Foto jika ada
+        if (file) {
+            const storageRef = ref(storage, `laporan/${Date.now()}_${file.name}`);
+            const snapshot = await uploadBytes(storageRef, file);
+            imageUrl = await getDownloadURL(snapshot.ref);
+        }
+
+        // Simpan Data ke Firestore
+        await addDoc(collection(db, "laporan"), {
+            nama: document.getElementById('nama').value,
+            kategori: document.getElementById('kategori').value,
+            keterangan: document.getElementById('keterangan').value,
+            fotoUrl: imageUrl, // URL foto disimpan di sini (null jika tidak ada)
+            koordinat: { lat: parseFloat(latVal), lng: parseFloat(lngVal) },
+            status: "Baru",
+            timestamp: serverTimestamp()
+        });
+        
+        alert("Laporan berhasil dikirim!");
+        form.reset();
+        document.getElementById('fileName').innerText = "";
+        if (currentMarker) map.removeLayer(currentMarker);
+        loadMarkers(); 
+
+    } catch (error) {
+        console.error("Error: ", error);
+        alert("Gagal mengirim laporan.");
+    } finally {
+        submitBtn.innerText = "Kirim Laporan";
+        submitBtn.disabled = false;
+    }
+});
