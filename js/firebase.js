@@ -1,8 +1,7 @@
-// Import fungsi inti dari Firebase SDK
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
+import { getStorage } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-storage.js";
 
-// Konfigurasi Firebase
 const firebaseConfig = {
     apiKey: "AIzaSyAF1F7swRNaYUYUDk3X8w9Yp5pSnTm1gWg",
     authDomain: "geoportalkriminalitas.firebaseapp.com",
@@ -13,11 +12,6 @@ const firebaseConfig = {
     measurementId: "G-G9EZ4MV3R8"
 };
 
-// Inisialisasi Firebase
 const app = initializeApp(firebaseConfig);
-
-// Inisialisasi Firestore Database
-const db = getFirestore(app);
-
-// Export db agar bisa di-import di file JS lainnya
-export { db };
+export const db = getFirestore(app);
+export const storage = getStorage(app);
