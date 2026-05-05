@@ -12,6 +12,40 @@ let currentMarker;
 const form = document.getElementById('laporanForm');
 const fileInput = document.getElementById('foto');
 
+
+import { auth, provider } from "./firebase.js";
+import { signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
+
+const btnLogin = document.getElementById("btnLogin");
+const btnLogout = document.getElementById("btnLogout");
+const teksStatus = document.getElementById("teksStatusLogin");
+
+// Fungsi Login
+btnLogin.addEventListener("click", async () => {
+    try {
+        await signInWithPopup(auth, provider);
+    } catch (error) {
+        alert("Gagal Login: " + error.message);
+    }
+});
+
+// Fungsi Logout
+btnLogout.addEventListener("click", () => {
+    signOut(auth);
+});
+
+// Pantau Status Login
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        teksStatus.innerText = `Halo, ${user.displayName}. Anda melapor sebagai Member.`;
+        btnLogin.classList.add("hidden");
+        btnLogout.classList.remove("hidden");
+    } else {
+        teksStatus.innerText = "Anda melaporkan sebagai Anonim.";
+        btnLogin.classList.remove("hidden");
+        btnLogout.classList.add("hidden");
+    }
+});
 // Load Data Laporan ke Peta
 async function loadMarkers() {
     const querySnapshot = await getDocs(collection(db, "laporan"));
