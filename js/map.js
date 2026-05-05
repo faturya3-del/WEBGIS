@@ -1,6 +1,26 @@
 import { db, storage } from './firebase.js';
 import { collection, addDoc, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
 import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-storage.js";
+import { collection, addDoc } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
+
+// Di dalam fungsi saat tombol "Kirim Laporan" ditekan:
+const user = auth.currentUser;
+
+// Tentukan folder penyimpanan (Collection)
+const folderTujuan = user ? "laporan_member" : "laporan_anonim";
+const identitas = user ? user.email : "Anonim";
+
+// Data yang akan disimpan
+const dataLaporan = {
+    // ... (masukkan nama, wilayah, kategori, url foto, kordinat dari form kamu)
+    pelapor: identitas,
+    status: "Baru", // Status awal selalu "Baru"
+    timestamp: new Date()
+};
+
+// Kirim ke database
+await addDoc(collection(db, folderTujuan), dataLaporan);
+alert(`Laporan berhasil dikirim ke database ${folderTujuan}!`);
 
 // Inisialisasi Peta (Area Jakarta sesuai screenshot)
 const map = L.map('map').setView([-6.175392, 106.827153], 12);
