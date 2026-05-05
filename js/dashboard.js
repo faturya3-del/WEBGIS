@@ -1,6 +1,80 @@
 import { db } from './firebase.js';
 import { collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
+import { db } from "./firebase.js";
+import { collection, getDocs, doc, updateDoc } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
 
+async function renderDashboard() {
+    // 1. Ambil elemen body tabel
+    const bodyMember = document.getElementById("tabelMember");
+    const bodyAnonim = document.getElementById("tabelAnonim");
+
+    // Bersihkan tabel sebelum mengisi (agar tidak dobel saat refresh)
+    bodyMember.innerHTML = "";
+    bodyAnonim.innerHTML = "";
+
+    // 2. Ambil data Member
+    const snapMember = await getDocs(collection(db, "laporan_member"));
+    snapMember.forEach((docData) => {
+        isiBaris(docData, bodyMember, "laporan_member");
+    });
+
+    // 3. Ambil data Anonim
+    const snapAnonim = await getDocs(collection(db, "laporan_anonim"));
+    snapAnonim.forEach((docData) => {
+        isiBaris(docData, bodyAnonim, "laporan_anonim");
+    });
+}
+
+function isiBaris(docData, targetTabel, namaKoleksi) {
+    const data = docData.data();
+    const id = docData.id;
+
+    // Tentukan warna label status
+    const warnaStatus = {
+        "Baru": "bg-red-100 text-red-700",
+        "Diproses": "bg-yellow-100 text-yellow-700",
+        "Selesai Ditinjau": "bg-green-100 text-green-700"
+    };
+
+    // Tentukan teks tombol aksi
+    let tombolAksi = "";
+    if (data.status === "Baru") {
+        tombolAksi = `<button onclick="updateStatus('${id}', 'Diproses', '${namaKoleksi}')" class="bg-blue-600 text-white px-3 py-1 rounded text-xs">Proses</button>`;
+    } else if (data.status === "Diproses") {
+        tombolAksi = `<button onclick="updateStatus('${id}', 'Selesai Ditinjau', '${namaKoleksi}')" class="bg-green-600 text-white px-3 py-1 rounded text-xs">Selesaikan</button>`;
+    } else {
+        tombolAksi = `<span class="text-gray-400 text-xs">Selesai</span>`;
+    }
+
+    const tr = document.createElement("tr");
+    tr.className = "hover:bg-slate-50 border-b";
+    tr.innerHTML = `
+        <td class="p-4 font-medium text-slate-700">${data.pelapor || 'Anonim'}</td>
+        <td class="p-4 text-slate-600">${data.kategori}</td>
+        <td class="p-4">
+            <span class="px-2 py-1 rounded-full text-[10px] font-bold ${warnaStatus[data.status] || 'bg-gray-100'}">
+                ${data.status}
+            </span>
+        </td>
+        <td class="p-4">${tombolAksi}</td>
+    `;
+    targetTabel.appendChild(tr);
+}
+
+// Fungsi Global untuk Update Status
+window.updateStatus = async (id, statusBaru, koleksi) => {
+    const docRef = doc(db, koleksi, id);
+    try {
+        await updateDoc(docRef, { status: statusBaru });
+        alert("Status diperbarui!");
+        renderDashboard(); // Refresh tampilan
+    } catch (err) {
+        alert("Gagal update: " + err.message);
+    }
+};
+
+// Jalankan saat halaman dibuka
+renderDashboard();
 async function loadDashboard() {
     const q = query(collection(db, "laporan"), orderBy("timestamp", "desc"));
     const querySnapshot = await getDocs(q);
